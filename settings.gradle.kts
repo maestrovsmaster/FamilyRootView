@@ -22,3 +22,5 @@ dependencyResolutionManagement {
 rootProject.name = "FamilyRootView"
 include(":app")
 include(":familyrootview")
+
+

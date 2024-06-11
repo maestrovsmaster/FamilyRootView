@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("maven-publish")
 }
 
 android {
@@ -24,11 +25,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
     composeOptions {
@@ -37,6 +38,35 @@ android {
 
    buildFeatures {
         compose = true
+    }
+
+    publishing {
+        multipleVariants {
+            allVariants()
+            withJavadocJar()
+            withSourcesJar()
+        }
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("mavenRelease") {
+                groupId = "com.github.maestrovsmaster"
+                artifactId = "FamilyRootView"
+                version = "1.0"
+
+                from(components["release"])
+            }
+            /*create<MavenPublication>("mavenDebug") {
+                groupId = "com.jetwidgets"
+                artifactId = "jetwidgets"
+                version = "1.0"
+
+                from(components["debug"])
+            }*/
+        }
     }
 }
 
